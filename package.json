@@ -1,0 +1,40 @@
+{
+  "name": "manhattan-maps",
+  "version": "0.0.1",
+  "description": "Support for displaying maps and map related content using Leaflet.",
+  "main": "dist/index.js",
+  "scripts": {
+    "dist": "NODE_ENV=dist webpack --progress",
+    "live": "webpack-dev-server --progress",
+    "watch": "webpack --watch --progress",
+    "test": "mocha --require coffee-script/register --compilers coffee:coffee-script"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.getme.co.uk:manhattan/manhattan_js_assets.git"
+  },
+  "keywords": [
+    "content",
+    "manhattan",
+    "wysiwyg"
+  ],
+  "author": "Anthony Blackshaw",
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.12.4",
+    "coffeelint": "^1.16.0",
+    "coffeelint-loader": "^0.1.1",
+    "css-loader": "^0.26.1",
+    "extract-loader": "^0.1.0",
+    "file-loader": "^0.10.0",
+    "manhattan-essentials": "^0.0.12",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^5.0.1",
+    "sasslint-loader": "0.0.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.2.1",
+    "webpack-cleanup-plugin": "^0.4.2",
+    "webpack-dev-server": "^2.4.1"
+  }
+}

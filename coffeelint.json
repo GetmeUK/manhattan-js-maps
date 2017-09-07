@@ -1,0 +1,54 @@
+{
+  "arrow_spacing": {
+    "level": "error"
+  },
+  "braces_spacing": {
+    "level": "error",
+    "empty_object_spaces": 0,
+    "spaces": 0
+  },
+  "camel_case_classes": {
+    "level": "error"
+  },
+  "colon_assignment_spacing": {
+    "level": "error",
+    "spacing": {
+      "left": 0,
+      "right": 1
+    }
+  },
+  "empty_constructor_needs_parens": {
+    "level": "error"
+  },
+  "ensure_comprehensions": {
+    "level": "error"
+  },
+  "indentation": {
+    "level": "error",
+    "value": 4
+  },
+  "newlines_after_classes": {
+    "level": "ignore"
+  },
+  "no_implicit_braces": {
+    "level": "ignore"
+  },
+  "no_stand_alone_at": {
+    "level": "error"
+  },
+  "no_this": {
+    "level": "error"
+  },
+  "no_unnecessary_double_quotes": {
+    "level": "error"
+  },
+  "non_empty_constructor_needs_parens": {
+    "level": "error"
+  },
+  "space_operators": {
+    "level": "ignore"
+  },
+  "spacing_after_comma": {
+    "level": "error"
+  }
+}
