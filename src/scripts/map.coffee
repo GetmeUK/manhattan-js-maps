@@ -12,6 +12,9 @@ class Map
         $.config(
             this,
             {
+                # Set to true to allow the map to be dragged by mouse/touch
+                dragging: false,
+
                 # The tile layer attribution string to display with the map
                 attribution: 'Map data © ' +
                     '<a href="http://openstreetmap.org">OpenStreetMap</a>',
@@ -29,6 +32,9 @@ class Map
                 # The min/max level of zoom the map should support
                 minZoom: 8,
                 maxZoom: 18,
+
+                # Set to true to allow the mouse scroll wheel to zoom the map
+                scrollWheelZoom: false,
 
                 # The URL for the tile layer we'll be using to render the map
                 url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -75,7 +81,13 @@ class Map
         @_dom.elm.__mh_map = this
 
         # Set-up the leaflet map
-        @_lmap = new L.Map(elm)
+        @_lmap = new L.Map(
+            elm,
+            {
+                dragging: @dragging,
+                scrollWheelZoom: @scrollWheelZoom
+            }
+        )
         @_lmap.addLayer(
             new L.TileLayer(
                 @url,
@@ -120,7 +132,6 @@ class Map
 
             # Store a reference to the marker
             @_lmarkers.push(marker)
-
 
         # Home the map
         behaviours.home[@_behaviours.home](this)
