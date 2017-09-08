@@ -15,28 +15,35 @@
         <form>
 
             <div>
-                <input type="text" name="lat">
-                <input type="text" name="lon">
+                <input type="text" name="lat" value="52.185766">
+                <input type="text" name="lon" value="-2.089655">
             </div>
+
             <div
-                data-mh-map
-                data-mh-map--home="first-marker"
-                data-mh-map--popup="content"
+                data-mh-map-field
                 style="background: #eee; height: 180px;"
-                ></div>
+                >
+            </div>
+
             <ul>
                 <li data-mh-marker data-mh-marker--coords="52.185766,-2.089655">
                     <p>Getme</p>
                 </li>
             </ul>
+
+            <h2>To do</h2>
+            <ul>
+                <li>Find button should perform an geo location lookup and update the marker position</li>
+            </ul>
+
         </form>
         <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
         <script src="http://localhost:5999/index.js"></script>
         <script>
-            var mapElm = document.querySelector('[data-mh-map]');
-            var map = new ManhattanMaps.Map(mapElm);
+            var mapElm = document.querySelector('[data-mh-map-field]');
+            var map = new ManhattanMaps.MapField(mapElm);
         </script>
     </body>
 </html>

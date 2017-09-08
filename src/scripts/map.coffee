@@ -102,7 +102,6 @@ class Map
         # Define read-only properties
         Object.defineProperty(this, 'elm', {value: @_dom.elm})
         Object.defineProperty(this, 'lmap', {value: @_lmap})
-        Object.defineProperty(this, 'lmap', {value: @_lmap})
         Object.defineProperty(
             this,
             'lmarkers',
@@ -149,7 +148,7 @@ class Map
 
     _et: (eventName) ->
         # Generate an event type name
-        return "mh-typeahead--#{eventName}"
+        return "mh-map--#{eventName}"
 
     # Behaviours
 
@@ -223,7 +222,7 @@ class Map
         marker:
             'default': (map, coords, icon) ->
                 # Create a marker using coordinates
-                return new L.marker(coords, icon: icon)
+                return new L.marker(coords, {icon: icon})
 
         # The `popup` behaviour is used to create pop up content for markers
         popup:
