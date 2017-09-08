@@ -2,6 +2,9 @@
 <html lang="en">
     <head>
         <title>manhattan-typeahead</title>
+         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+            integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+            crossorigin=""/>
         <link
             rel="stylesheet"
             type="text/css"
@@ -10,13 +13,30 @@
     </head>
     <body>
         <form>
+
             <div>
-                <input type="text" name="my_image" id="my-image">
+                <input type="text" name="lat">
+                <input type="text" name="lon">
             </div>
+            <div
+                data-mh-map
+                data-mh-map--home="first-marker"
+                data-mh-map--popup="content"
+                style="background: #eee; height: 180px;"
+                ></div>
+            <ul>
+                <li data-mh-marker data-mh-marker--coords="52.185766,-2.089655">
+                    <p>Getme</p>
+                </li>
+            </ul>
         </form>
+        <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+            integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+            crossorigin=""></script>
         <script src="http://localhost:5999/index.js"></script>
         <script>
-            console.log(123);
+            var mapElm = document.querySelector('[data-mh-map]');
+            var map = new ManhattanMaps.Map(mapElm);
         </script>
     </body>
 </html>

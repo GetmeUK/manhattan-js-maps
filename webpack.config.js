@@ -47,10 +47,12 @@ switch (process.env.NODE_ENV) {
 module.exports = {
     plugins: plugins,
 
-    entry: [
-        path.resolve(__dirname, 'src/scripts', 'maps.coffee'),
-        path.resolve(__dirname, 'src/styles', 'maps.scss')
-    ],
+    entry: {
+        'index': [
+            path.resolve(__dirname, 'src/styles', 'maps.scss'),
+            path.resolve(__dirname, 'src/scripts', 'maps.coffee')
+        ]
+    },
 
     output: {
         library: 'ManhattanMaps',

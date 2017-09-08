@@ -1,3 +1,8 @@
-$ = require 'manhattan-essentials'
+field = require './field.coffee'
+map = require './map.coffee'
 
-console.log $
+
+module.exports = {
+    Map: map.Map,
+    MapField: field.MapField
+}
