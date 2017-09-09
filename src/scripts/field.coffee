@@ -16,9 +16,23 @@ class MapField
                 attribution: 'Map data © ' +
                     '<a href="http://openstreetmap.org">OpenStreetMap</a>',
 
+                # A list of input selectors used to build content to request a
+                # geocode for a descriptive location (like an address).
+                #
+                # To specify a list of geocode inputs as a string you comma
+                # (,) separate the input lists and plus (+) separate inputs,
+                # e.g:
+                #
+                #    data-geocode-inputs="address1+city+postcode,postcode"
+                #
+                geocodeInputs: [['postcode'], ['city']],
+
+                # The URL endpoing for the geocoding service
+                geocodeUrl: '',
+
                 # Selectors for the input for the field
-                latInput: '[name="lat"]',
-                lonInput: '[name="lon"]',
+                latInput: 'lat',
+                lonInput: 'lon',
 
                 # The min/max level of zoom the map should support
                 minZoom: 8,
@@ -34,6 +48,13 @@ class MapField
             elm,
             @constructor.clsPrefix
         )
+
+        # If the geocode inputs have been set as a string convert them into a
+        # input name arrays.
+        if typeof @geocodeInputs is 'string'
+            inputs = []
+            for inputsStr in @geocodeInputs.split(',')
+                inputs.push(inputsStr.split('+'))
 
         # Set up and configure behaviours
         @_behaviours = {}
@@ -134,8 +155,63 @@ class MapField
             # Center the map on the marker
             @lmap.setView(@lmarker.getLatLng(), @zoom)
 
-        $.listen($.one(@latInput), change: syncInputs)
-        $.listen($.one(@lonInput), change: syncInputs)
+        $.listen($.one("[name='#{ @latInput }']"), change: syncInputs)
+        $.listen($.one("[name='#{ @lonInput }']"), change: syncInputs)
+
+        # If a geocode behaviour has been defined then add a find location
+        # button and implement geocoding support.
+        unless @_behaviours.geocode is 'none'
+
+            # Add find location button to the controls
+            control = $.one('.leaflet-bottom.leaflet-left', @elm)
+            @_dom.findLocation = $.create(
+                'div',
+                {'class': 'mh-map-field__find-location leaflet-control'}
+            )
+            @_dom.findLocation.textContent = 'Find location'
+            control.appendChild(@_dom.findLocation)
+
+            # Add an event listener for find location button
+            $.listen @_dom.findLocation, 'click': (ev) =>
+                ev.preventDefault()
+
+                # Build a prioritized list of locations to attempt to geocode
+                locations = []
+                for inputs in @geocodeInputs
+                    location = []
+                    for input in inputs
+                        domInput = $.one("[name='#{ input }']")
+                        if domInput and domInput.value.trim()
+                            location.push(domInput.value.trim())
+
+                    if location.length > 0
+                        locations.push(location.join(','))
+
+                # Attempt to geocode each location in priority order
+                callback = (locations) =>
+                    behaviours = @constructor.behaviours
+                    geocode = behaviours.geocode[@_behaviours.geocode]
+                    setValue = behaviours.setValue[@_behaviours.setValue]
+
+                    _callback = (latLon) =>
+                        # If the geocoder returned a valid lat/lon update the
+                        # map and associated lat lon fields.
+                        if latLon
+                            setValue(this, latLon)
+                            @lmarker.setLatLng(latLon)
+                            @lmap.setView(@lmarker.getLatLng(), @zoom)
+                            return
+
+                        # No valid location found yet, try the next location
+                        if locations.length is 0
+                            return
+
+                        location = locations.shift()
+                        latLon = geocode(this, location, callback(locations))
+
+                    return _callback
+
+                callback(locations)()
 
         # Center the map on the marker
         @lmap.setView(@lmarker.getLatLng(), @zoom)
@@ -159,14 +235,28 @@ class MapField
 
     @behaviours:
 
+        # The `geocode` behaviour controls the geocoding of descriptive
+        # location data (such as an address).
+        geocode:
+
+            'none': (mapField, location, callback) ->
+                return null
+
         # The `getValue` behaviour determines how the lat/lon value is
         # obtained.
         getValue:
             'inputs': (mapField) ->
-                lat = parseFloat($.one(mapField.latInput).value)
-                lon = parseFloat($.one(mapField.lonInput).value)
+                lat = parseFloat($.one("[name='#{ mapField.latInput }']").value)
+                lon = parseFloat($.one("[name='#{ mapField.lonInput }']").value)
+
+                # Lat/lon must be valid numbers
                 if isNaN(lat) or isNaN(lon)
                     return null
+
+                # Lat/Lon must be within range
+                if lat < -180 or lat > 180 or lon < -90 or lon > 90
+                    return null
+
                 return [lat, lon]
 
         # The `icon` behaviour is used to create the icon for the marker on
@@ -179,8 +269,8 @@ class MapField
         # stored.
         setValue:
             'inputs': (mapField, latLon) ->
-                $.one(mapField.latInput).value = latLon[0]
-                $.one(mapField.lonInput).value = latLon[1]
+                $.one("[name='#{ mapField.latInput }']").value = latLon[0]
+                $.one("[name='#{ mapField.lonInput }']").value = latLon[1]
 
 
 module.exports = {

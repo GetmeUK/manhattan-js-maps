@@ -13,23 +13,46 @@
     </head>
     <body>
         <form>
+            <div>
+                <label>
+                    City<br>
+                    <input type="text" name="city" value="bromyard">
+                </label>
+            </div>
+            <div>
+                <label>
+                    Postcode<br>
+                    <input type="text" name="postcode" value="hr74qf">
+                </label>
+            </div>
+
+            <br>
 
             <div>
-                <input type="text" name="lat" value="52.185766">
-                <input type="text" name="lon" value="-2.089655">
+                <label>
+                    Lat
+                    <input type="text" name="lat" value="52.185766">
+                </label>
+                <label>
+                    Lon
+                    <input type="text" name="lon" value="-2.089655">
+                </label>
             </div>
+
+            <br>
 
             <div
                 data-mh-map-field
-                style="background: #eee; height: 180px;"
-                >
-            </div>
+                data-mh-map-field--geocode="geocode"
+                data-mh-map-field--geocode-url="https://geocodeuk.com/api/v1/8b50-c487-ec89-3a6d-b968-5261-ec02-d47e/geocode"
+                class="mh-map-field"
+                ></div>
 
-            <ul>
+            <!--ul>
                 <li data-mh-marker data-mh-marker--coords="52.185766,-2.089655">
                     <p>Getme</p>
                 </li>
-            </ul>
+            </ul-->
 
             <h2>To do</h2>
             <ul>
@@ -44,6 +67,30 @@
         <script>
             var mapElm = document.querySelector('[data-mh-map-field]');
             var map = new ManhattanMaps.MapField(mapElm);
+
+            function geocode(mapField, location, callback) {
+                var url = mapField.geocodeUrl + '?q=' + location;
+
+                // Set up the request
+                var xhr = new XMLHttpRequest()
+                xhr.addEventListener('load', function (ev) {
+                    // Extract the items from the JSON response
+                    response = JSON.parse(ev.target.responseText)
+
+                    if(response.status === 'success') {
+                        callback(response.matches[0].point)
+                    } else {
+                        callback(null)
+                    }
+                });
+
+                // Send the request
+                xhr.open('GET', url);
+                xhr.send(null);
+            }
+
+            ManhattanMaps.MapField.behaviours.geocode.geocode = geocode;
+
         </script>
     </body>
 </html>
