@@ -130,7 +130,7 @@ class MapField
                 setValue(this, [latLon.lat, latLon.lng])
 
                 # Center the map on the marker
-                @lmap.setView(@lmarker.getLatLng(), @zoom)
+                @lmap.setView(@lmarker.getLatLng())
 
         # Add event listeners for the lat/lon inputs
         syncInputs = (ev) =>
@@ -153,7 +153,7 @@ class MapField
                 setValue(this, latLon)
 
             # Center the map on the marker
-            @lmap.setView(@lmarker.getLatLng(), @zoom)
+            @lmap.setView(@lmarker.getLatLng())
 
         $.listen($.one("[name='#{ @latInput }']"), change: syncInputs)
         $.listen($.one("[name='#{ @lonInput }']"), change: syncInputs)
@@ -199,7 +199,7 @@ class MapField
                         if latLon
                             setValue(this, latLon)
                             @lmarker.setLatLng(latLon)
-                            @lmap.setView(@lmarker.getLatLng(), @zoom)
+                            @lmap.setView(@lmarker.getLatLng())
                             return
 
                         # No valid location found yet, try the next location
