@@ -55,6 +55,7 @@ class MapField
             inputs = []
             for inputsStr in @geocodeInputs.split(',')
                 inputs.push(inputsStr.split('+'))
+            @geocodeInputs = inputs
 
         # Set up and configure behaviours
         @_behaviours = {}

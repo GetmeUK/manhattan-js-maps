@@ -1,6 +1,6 @@
 {
   "name": "manhattan-maps",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Support for displaying maps and map related content using Leaflet.",
   "main": "dist/index.js",
   "scripts": {
