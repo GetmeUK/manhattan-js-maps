@@ -1,0 +1,3 @@
+/node_modules/**
+/umd/**
+webpack.config.js

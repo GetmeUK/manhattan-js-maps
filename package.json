@@ -1,40 +1,71 @@
 {
   "name": "manhattan-maps",
-  "version": "0.0.2",
-  "description": "Support for displaying maps and map related content using Leaflet.",
-  "main": "dist/index.js",
+  "version": "1.0.0",
+  "description": "Display maps and map fields using leaflet.",
+  "engines": {
+    "node": ">=8.9.4"
+  },
+  "main": "umd/index.js",
+  "module": "module/index.js",
+  "files": [
+    "module",
+    "umd"
+  ],
   "scripts": {
-    "dist": "NODE_ENV=dist webpack --progress",
-    "live": "webpack-dev-server --progress",
-    "watch": "webpack --watch --progress",
-    "test": "mocha --require coffee-script/register --compilers coffee:coffee-script"
+    "build": "webpack --mode production || exit 0",
+    "build-css": "node-sass --include-path scss scss/maps.scss spec/maps.css",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "dev-build": "webpack --mode development || exit 0",
+    "lint": "eslint module spec *.js --quiet || exit 0",
+    "test": "cross-env NODE_ENV=test nyc mocha ./spec/**/*.spec.js || exit 0",
+    "watch": "webpack --mode development --watch || exit 0"
+  },
+  "nyc": {
+    "exclude": [
+      "spec/setup.js",
+      "spec/**/*.spec.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "repository": {
     "type": "git",
-    "url": "git@git.getme.co.uk:manhattan/manhattan_js_assets.git"
+    "url": "git@github.com:GetmeUK/manhattan-js-maps.git"
   },
   "keywords": [
-    "content",
     "manhattan",
-    "wysiwyg"
+    "sorting"
   ],
   "author": "Anthony Blackshaw",
   "license": "MIT",
   "devDependencies": {
-    "coffee-loader": "^0.7.2",
-    "coffee-script": "^1.12.4",
-    "coffeelint": "^1.16.0",
-    "coffeelint-loader": "^0.1.1",
-    "css-loader": "^0.26.1",
-    "extract-loader": "^0.1.0",
-    "file-loader": "^0.10.0",
-    "manhattan-essentials": "^0.0.12",
-    "node-sass": "^4.5.0",
-    "sass-loader": "^5.0.1",
-    "sasslint-loader": "0.0.1",
-    "url-loader": "^0.5.7",
-    "webpack": "^2.2.1",
-    "webpack-cleanup-plugin": "^0.4.2",
-    "webpack-dev-server": "^2.4.1"
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-istanbul": "^4.1.5",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
+    "cross-env": "^5.1.3",
+    "eslint": "^4.18.1",
+    "jsdom": "^11.6.2",
+    "mocha": "^5.0.1",
+    "mocha-lcov-reporter": "^1.3.0",
+    "node-sass": "^4.7.2",
+    "nyc": "^11.4.1",
+    "sinon": "^4.3.0",
+    "sinon-chai": "^2.14.0",
+    "webpack": "^4.0.0",
+    "webpack-cli": "^2.0.9"
+  },
+  "dependencies": {
+    "manhattan-essentials": "^1.0.0"
   }
 }

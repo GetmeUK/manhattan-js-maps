@@ -1,9 +1,7 @@
 # Directories
 .cache
-.nyc_output
-coverage
+.sass-cache
 node_modules
-umd
 
 # Files
 npm-debug.log
