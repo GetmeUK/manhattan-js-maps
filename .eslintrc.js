@@ -13,6 +13,7 @@ module.exports = {
         "describe": true,
         "global": true,
         "it": true,
+        "L": true,
         "require": true
     },
     "parserOptions": {
