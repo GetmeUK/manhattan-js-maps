@@ -111,8 +111,8 @@ export class MapView {
 
         // Store a reference to the mapElm (we also store a reverse
         // reference to this instance against the container).
-        this._dom.mapElm = mapElm
-        this._dom.mapElm._mhMapView = this
+        this._dom.map = mapElm
+        this._dom.map._mhMapView = this
     }
 
     // -- Getters & Setters --
@@ -138,7 +138,7 @@ export class MapView {
     }
 
     get mapElm() {
-        return this._dom.mapElm
+        return this._dom.map
     }
 
     get zoom() {
@@ -231,7 +231,7 @@ MapView.behaviours = {
      *    [[[lat, lng], obj|elm], ...]
      *
      */
-    'fectchMarkers': {
+    'fetchMarkers': {
 
         /**
          * Find marker coordinates with the page using the given CSS selector.
