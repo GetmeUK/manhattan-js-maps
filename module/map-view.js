@@ -1,4 +1,5 @@
 import * as $ from 'manhattan-essentials'
+import {FeatureGroup, Icon, LatLng, Map, Marker, TileLayer} from 'leaflet';
 
 
 // -- Class definition --
@@ -123,7 +124,7 @@ export class MapView {
 
     set coords(value) {
         this.lmap.setView(
-            new L.LatLng(value[0], value[0]),
+            new LatLng(value[0], value[0]),
             this.zoom
         )
     }
@@ -170,14 +171,14 @@ export class MapView {
         const {behaviours} = this.constructor
 
         // Set-up the Leaflet map
-        this._lmap = new L.Map(
+        this._lmap = new Map(
             this.mapElm,
             {
                 'dragging': this._options.dragging,
                 'scrollWheelZoom': this._options.scrollWheelZoom
             }
         )
-        const layer = new L.TileLayer(
+        const layer = new TileLayer(
             this._options.tileLayerURL,
             {
                 'minZoom': this._options.minZoom,
@@ -280,7 +281,7 @@ MapView.behaviours = {
          */
         'fit-markers': (inst) => {
             if (inst.lmarkers.length > 0) {
-                const group = new L.FeatureGroup(inst.lmarkers)
+                const group = new FeatureGroup(inst.lmarkers)
                 inst.lmap.fitBounds(
                     group.getBounds(),
                     {'padding': inst.groupPadding}
@@ -302,7 +303,7 @@ MapView.behaviours = {
          * Return the default leaflet icon.
          */
         'default': (inst, obj) => {
-            return new L.Icon.Default()
+            return new Icon.Default()
         }
 
     },
@@ -316,7 +317,7 @@ MapView.behaviours = {
          * Return a leaflet marker for the given coords and icon.
          */
         'default': (inst, coords, icon) => {
-            return new L.Marker(coords, {icon})
+            return new Marker(coords, {icon})
         }
 
     },
