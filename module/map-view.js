@@ -173,7 +173,7 @@ export class MapView {
         this._lmarkers = []
 
         // Remove the map view reference from the container
-        delete this._dom.container._mhMapView
+        delete this._dom.map._mhMapView
     }
 
     /**

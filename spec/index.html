@@ -7,28 +7,17 @@
             type="text/css"
             href="../node_modules/leaflet/dist/leaflet.css"
             >
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="maps.css"
+            >
         <style>
-.mh-map-view,
-.mh-map-field {
+.map-view,
+.map-field {
     background: #eee;
     width: 400px;
     height: 300px;
-}
-
-.mh-find-location {
-    background: #fff;
-    border-radius: 2px;
-    bottom: 2px;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
-    cursor: pointer;
-    font-weight: bold;
-    left: 2px;
-    padding: 5px 10px;
-    z-index: 800;
-
-}
-.mh-find-location:hover {
-    background-color: #f8f8f8;
 }
         </style>
     </head>
@@ -41,9 +30,9 @@
             data-mh-map-view--home="fit-markers"
             data-mh-map-view--group-padding="100,100"
             data-mh-map-view--popup="content"
-            class="mh-map-view"
+            class="map-view"
             ></div>
-        <datalist id="cities">
+        <datalist>
             <option
                 data-mh-map-marker
                 data-mh-map-marker--coords="52.056398,-2.715974"
@@ -89,7 +78,7 @@
                 data-mh-map-field
                 data-mh-map-field--geocode="geocodeuk"
                 data-mh-map-field--geocode-url="8b50-c487-ec89-3a6d-b968-5261-ec02-d47e"
-                class="mh-map-field"
+                class="map-field"
                 ></div>
         </form>
 
