@@ -7,7 +7,7 @@ module.exports = {
     },
 
     externals: {
-        'leaflet': 'leaflet',
+        'leaflet': 'L',
         'manhattan-essentials': 'manhattan-essentials'
     },
 

@@ -14,7 +14,7 @@ import {Icon, LatLng, Map, Marker, TileLayer} from 'leaflet';
  * - Support for geocoding fields within the form (e.g town, postcode) to set
  *   the position of the marker and the form's lat/lng field values.
  */
-export class MapView {
+export class MapField {
 
     constructor(mapElm, options={}, prefix='data-mh-map-field--') {
 
@@ -31,6 +31,12 @@ export class MapView {
                  */
                 'attribution': 'Map data © '
                     + '<a href="https://openstreetmap.org">OpenStreetMap</a>',
+
+                /**
+                 * Flag indicating if the map view can be dragged by
+                 * mouse/touch.
+                 */
+                'dragging': true,
 
                 /**
                  * The form the map is integrated with.
@@ -71,6 +77,12 @@ export class MapView {
                  */
                 'minZoom': 8,
                 'maxZoom': 18,
+
+                /**
+                 * Set to true to allow the mouse scroll wheel to zoom the
+                 * map.
+                 */
+                'scrollWheelZoom': false,
 
                 /**
                  * The URL for the tile layer used to render the map, the
@@ -149,7 +161,7 @@ export class MapView {
     // -- Getter & Setters --
 
     get form() {
-        return this.constructor.behaviours[this._behaviours.getForm](
+        return this.constructor.behaviours.getForm[this._behaviours.getForm](
             this,
             this._options.form
         )
@@ -247,7 +259,7 @@ export class MapView {
         // Set up event listeners
         const fields = behaviours.sync[this._behaviours.sync](this)
         for (let field of fields) {
-            $.listen(field, this._handlers.sync)
+            $.listen(field, {'change': this._handlers.sync})
         }
 
         if (this._behaviours.geocode !== 'none') {
@@ -259,7 +271,10 @@ export class MapView {
             )
             this._dom.findLocation = $.create(
                 'div',
-                {'class': 'mh-map-field__find-location leaflet-control'}
+                {
+                    'class': `${this.constructor.css['find-location']} \
+leaflet-control`
+                }
             )
             this._dom.findLocation.textContent = 'Find location'
             control.appendChild(this._dom.findLocation)
@@ -338,8 +353,8 @@ export class MapView {
         const formLatLng = getValue(this)
         if (formLatLng) {
             // Update the marker/map with the new coordinates
-            this.lmarker.setLatLon(formLatLng)
-            this.lmap.setView(this, formLatLng)
+            this.lmarker.setLatLng(formLatLng)
+            this.lmap.setView(this.lmarker.getLatLng())
         } else {
             // Reset the form value if it isn't valid
             setValue(
@@ -356,7 +371,7 @@ export class MapView {
 
 // -- Behaviours --
 
-MapView.behaviours = {
+MapField.behaviours = {
 
     /**
      * The `geocode` behaviour controls the geocoding of descriptive location
@@ -369,6 +384,29 @@ MapView.behaviours = {
          */
         'none': (inst, location) => {
             return null
+        },
+
+        /**
+         * Use the GeocodeUK.com service.
+         */
+        'geocodeuk': (inst, location) => {
+
+            // Build the API URL
+            const apiKey = inst._options.geocodeURL
+            const url = `https://geocodeuk.com/api/v1/${apiKey}/geocode\
+?q=${location}`
+
+            // Fetch the location
+            return fetch(url)
+                .then((response) => {
+                    return response.json()
+                })
+                .then((json) => {
+                    if (json.matches && json.matches.length > 0) {
+                        return json.matches[0].point
+                    }
+                    throw new Error('No match')
+                })
         }
     },
 
@@ -473,7 +511,7 @@ MapView.behaviours = {
                 inst.form
             )
             const lngInput = $.one(
-                `[name="${inst._options.latInput}"]`,
+                `[name="${inst._options.lngInput}"]`,
                 inst.form
             )
             const [lat, lng] = latLng
@@ -495,7 +533,7 @@ MapView.behaviours = {
         'inputs': (inst) => {
             return $.many(
                 `[name="${inst._options.latInput}"],
-                 [name="${inst._options.latInput}"]`,
+                 [name="${inst._options.lngInput}"]`,
                 inst.form
             )
         }
@@ -506,4 +544,11 @@ MapView.behaviours = {
 
 // -- CSS classes --
 
-MapView.css = {}
+MapField.css = {
+
+    /**
+     * Applied to the find location button on the map.
+     */
+    'find-location': 'mh-find-location'
+
+}

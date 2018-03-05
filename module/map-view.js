@@ -13,7 +13,7 @@ import {FeatureGroup, Icon, LatLng, Map, Marker, TileLayer} from 'leaflet';
  */
 export class MapView {
 
-    constructor(mapElm, options={}, prefix='data-mh-map--') {
+    constructor(mapElm, options={}, prefix='data-mh-map-view--') {
 
         // Configure the options
         this._options = {}
@@ -49,13 +49,19 @@ export class MapView {
                 /**
                  * The marker source (see `fetchMarkers` behaviour).
                  */
-                'markers': '[data-mh-marker]',
+                'markers': '[data-mh-map-marker]',
 
                 /**
                  * The min/max levels of zoom the map should allow.
                  */
                 'minZoom': 8,
                 'maxZoom': 18,
+
+                /**
+                 * Set to true to allow the mouse scroll wheel to zoom the
+                 * map.
+                 */
+                'scrollWheelZoom': false,
 
                 /**
                  * The URL for the tile layer used to render the map, the
@@ -77,10 +83,19 @@ export class MapView {
         // If the coordinates have been set as a string convert them to an
         // array.
         if (typeof this._options.coords === 'string') {
-            this._options._coords = this._options._coords.split(',')
-            const [lat, lon] = this._options._coords
-            this._options._coords[0] = parseFloat(lat)
-            this._options._coords[1] = parseFloat(lon)
+            this._options.coords = this._options.coords.split(',')
+            const [lat, lon] = this._options.coords
+            this._options.coords[0] = parseFloat(lat)
+            this._options.coords[1] = parseFloat(lon)
+        }
+
+        // If the group padding has been set as a string convert it to an
+        // array.
+        if (typeof this._options.groupPadding === 'string') {
+            this._options.groupPadding = this._options.groupPadding.split(',')
+            const [paddingX, paddingY] = this._options.groupPadding
+            this._options.groupPadding[0] = parseFloat(paddingX)
+            this._options.groupPadding[1] = parseFloat(paddingY)
         }
 
         // Configure the behaviours
@@ -123,10 +138,7 @@ export class MapView {
     }
 
     set coords(value) {
-        this.lmap.setView(
-            new LatLng(value[0], value[0]),
-            this.zoom
-        )
+        this.lmap.setView(new LatLng(value[0], value[1]))
     }
 
     get lmap() {
@@ -240,8 +252,9 @@ MapView.behaviours = {
             const markers = []
             const markerElms = $.many(inst._options.markers)
             for (let markerElm of markerElms) {
-                let coords = markerElm.getAttribute('data-mh-marker--coords')
-                coords = coords.split()
+                let coords = markerElm
+                    .getAttribute('data-mh-map-marker--coords')
+                coords = coords.split(',')
                 coords[0] = parseFloat(coords[0])
                 coords[1] = parseFloat(coords[1])
                 markers.push([coords, markerElm])
@@ -261,6 +274,7 @@ MapView.behaviours = {
          * Set the home position of the map based on the given coordinates.
          */
         'coords': (inst) => {
+            inst.zoom = inst._options.zoom
             inst.coords = inst._options.coords
         },
 
@@ -270,6 +284,7 @@ MapView.behaviours = {
          */
         'first-marker': (inst) => {
             if (inst.lmarkers.length > 0) {
+                inst.zoom = inst._options.zoom
                 inst.coords = inst.lmarkers[0].getLatLng()
             } else {
                 inst.constructor.behaviours.home.coords(inst)
@@ -284,7 +299,7 @@ MapView.behaviours = {
                 const group = new FeatureGroup(inst.lmarkers)
                 inst.lmap.fitBounds(
                     group.getBounds(),
-                    {'padding': inst.groupPadding}
+                    {'padding': inst._options.groupPadding}
                 )
             } else {
                 inst.constructor.behaviours.home.coords(inst)

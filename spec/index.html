@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <title>manhattan-maps</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="../node_modules/leaflet/dist/leaflet.css"
+            >
+        <style>
+.mh-map-view,
+.mh-map-field {
+    background: #eee;
+    width: 400px;
+    height: 300px;
+}
+
+.mh-find-location {
+    background: #fff;
+    border-radius: 2px;
+    bottom: 2px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    font-weight: bold;
+    left: 2px;
+    padding: 5px 10px;
+    z-index: 800;
+
+}
+.mh-find-location:hover {
+    background-color: #f8f8f8;
+}
+        </style>
+    </head>
+    <body>
+
+        <div
+            data-mh-map-view
+            data-mh-map-view--dragging
+            data-mh-map-view--scroll-wheel-zoom
+            data-mh-map-view--home="fit-markers"
+            data-mh-map-view--group-padding="100,100"
+            data-mh-map-view--popup="content"
+            class="mh-map-view"
+            ></div>
+        <datalist id="cities">
+            <option
+                data-mh-map-marker
+                data-mh-map-marker--coords="52.056398,-2.715974"
+                value="Hereford"
+                >
+                Hereford
+            </option>
+            <option
+                data-mh-map-marker
+                data-mh-map-marker--coords="52.193636,-2.221575"
+                value="Worcester"
+                >
+                Worcester
+            </option>
+        </datalist>
+
+        <form>
+            <div>
+                <label>
+                    City<br>
+                    <input type="text" name="city" value="bromyard">
+                </label>
+            </div>
+            <div>
+                <label>
+                    Postcode<br>
+                    <input type="text" name="postcode" value="hr74qf">
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Lat
+                    <input type="text" name="lat" value="52.185766">
+                </label>
+                <label>
+                    Lon
+                    <input type="text" name="lng" value="-2.089655">
+                </label>
+            </div>
+
+            <div
+                data-mh-map-field
+                data-mh-map-field--geocode="geocodeuk"
+                data-mh-map-field--geocode-url="8b50-c487-ec89-3a6d-b968-5261-ec02-d47e"
+                class="mh-map-field"
+                ></div>
+        </form>
+
+        <script src="../node_modules/manhattan-essentials/umd/index.js"></script>
+        <script src="../node_modules/leaflet/dist/leaflet-src.js"></script>
+
+        <script src="../umd/index.js"></script>
+        <script>
+
+            const $ = window['manhattan-essentials']
+            const {MapField} = window['manhattan-maps'].mapField
+            const {MapView} = window['manhattan-maps'].mapView
+
+            const mapView = new MapView($.one('[data-mh-map-view]'))
+            mapView.init()
+
+            const mapField = new MapField($.one('[data-mh-map-field]'))
+            mapField.init()
+
+        </script>
+    </body>
+</html>
