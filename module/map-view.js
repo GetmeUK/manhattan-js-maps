@@ -168,7 +168,9 @@ export class MapView {
      */
     destroy() {
         // Remove the map and markers
-        this.lmap.remove()
+        if (this.lmap !== null) {
+            this.lmap.remove()
+        }
         this._lmap = null
         this._lmarkers = []
 
@@ -284,8 +286,9 @@ MapView.behaviours = {
          */
         'first-marker': (inst) => {
             if (inst.lmarkers.length > 0) {
+                const coords = inst.lmarkers[0].getLatLng()
                 inst.zoom = inst._options.zoom
-                inst.coords = inst.lmarkers[0].getLatLng()
+                inst.coords = [coords.lat, coords.lng]
             } else {
                 inst.constructor.behaviours.home.coords(inst)
             }
