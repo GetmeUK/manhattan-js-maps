@@ -334,23 +334,20 @@ leaflet-control`
 
         // Attempt to find the locations
         const _lookup = (_locations) => {
-
-            geocode(this, _locations.shift())
+            return geocode(this, _locations.shift())
                 .then((latLng) => {
                     // Found, set the new location in the map and the form
                     this.lmarker.setLatLng(latLng)
                     this.lmap.setView(this.lmarker.getLatLng())
                 })
                 .catch(() => {
-
                     // Not found, try the next one if there is one
                     if (_locations.length > 0) {
-                        _lookup(_locations)
+                        return _lookup(_locations)
                     }
-
                 })
         }
-        _lookup(locations)
+        return _lookup(locations)
     }
 
     /**
