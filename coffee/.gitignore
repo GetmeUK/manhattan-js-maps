@@ -1,8 +1,0 @@
-# Directories
-.cache
-.sass-cache
-node_modules
-
-# Files
-npm-debug.log
-*~
