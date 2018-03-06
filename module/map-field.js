@@ -150,6 +150,7 @@ export class MapField {
         this._handlers = {
             'findLocation': (event) => {
                 event.preventDefault()
+                event.stopPropagation()
                 this._findLocation()
             },
             'sync': (event) => {
@@ -189,16 +190,31 @@ export class MapField {
         const {behaviours} = this.constructor
         const fields = behaviours.sync[this._behaviours.sync](this)
         for (let field of fields) {
-            $.ignore(field, this._handlers.sync)
+            $.ignore(field, {'change': this._handlers.sync})
+        }
+
+        // Remove find location button
+        if (this._dom.findLocation !== null) {
+            $.ignore(
+                this._dom.findLocation,
+                {'click': this._handlers.findLocation}
+            )
+            this._dom.findLocation.parentNode.remove(this._dom.findLocation)
+            this._dom.findLocation = null
         }
 
         // Remove the map and markers
-        this.lmap.remove()
+        if (this.lmap !== null) {
+            this.lmap.remove()
+        }
         this._lmap = null
         this._lmarker = null
 
+        // Clear any reference to the form
+        this._dom.form = null
+
         // Remove the map field reference from the container
-        delete this._dom.container._mhMapField
+        delete this._dom.map._mhMapField
     }
 
     /**
@@ -279,7 +295,8 @@ leaflet-control`
             this._dom.findLocation.textContent = 'Find location'
             control.appendChild(this._dom.findLocation)
 
-            //
+            // Attempt to geocode/find the a location whenever the button is
+            // clicked.
             $.listen(
                 this._dom.findLocation,
                 {'click': this._handlers.findLocation}
@@ -317,19 +334,17 @@ leaflet-control`
 
         // Attempt to find the locations
         const _lookup = (_locations) => {
-            geocode(this, locations.shift())
-                .then((latLng) => {
 
+            geocode(this, _locations.shift())
+                .then((latLng) => {
                     // Found, set the new location in the map and the form
-                    setValue(this, latLng)
                     this.lmarker.setLatLng(latLng)
                     this.lmap.setView(this.lmarker.getLatLng())
-
                 })
                 .catch(() => {
 
                     // Not found, try the next one if there is one
-                    if (locations.length > 0) {
+                    if (_locations.length > 0) {
                         _lookup(_locations)
                     }
 

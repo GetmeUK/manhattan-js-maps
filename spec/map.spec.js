@@ -113,6 +113,32 @@ describe('MapView', () => {
         })
     })
 
+    describe('options', () => {
+        let mapView = null
+
+        afterEach(() => {
+            mapView.destroy()
+        })
+
+        describe('coordinates', () => {
+            it('should convert a coords string to pair of [x, y]'
+                + 'coordinates', () => {
+
+                mapView = new MapView(mapElm, {'coords': '50.0, -1.0'})
+                mapView._options.coords.should.deep.equal([50.0, -1.0])
+            })
+        })
+
+        describe('groupPadding', () => {
+            it('should convert a group padding string to a pair of [x, y]'
+                + 'padding values', () => {
+
+                mapView = new MapView(mapElm, {'groupPadding': '50.0, -1.0'})
+                mapView._options.groupPadding.should.deep.equal([50.0, -1.0])
+            })
+        })
+    })
+
     describe('public methods', () => {
         let mapView = null
 
@@ -156,31 +182,6 @@ describe('MapView', () => {
                 const {lmarkers} = mapView
                 lmarkers[0]._popup._content.innerHTML.should.equal('Marker 1')
                 lmarkers[1]._popup._content.innerHTML.should.equal('Marker 2')
-            })
-        })
-    })
-
-    describe('options', () => {
-        let mapView = null
-
-        afterEach(() => {
-            mapView.destroy()
-        })
-
-        describe('coordinates', () => {
-            it('should convert a coords string option to pair of [x, y]'
-                + 'coordinates', () => {
-                mapView = new MapView(mapElm, {'coords': '50.0, -1.0'})
-                mapView._options.coords.should.deep.equal([50.0, -1.0])
-            })
-        })
-
-        describe('groupPadding', () => {
-            it('should convert a group padding string to a pair of [x, y]'
-                + 'padding values', () => {
-
-                mapView = new MapView(mapElm, {'groupPadding': '50.0, -1.0'})
-                mapView._options.groupPadding.should.deep.equal([50.0, -1.0])
             })
         })
     })
