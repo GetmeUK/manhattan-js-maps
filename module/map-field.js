@@ -142,10 +142,8 @@ export class MapField {
             'map': null
         }
 
-        // Store a reference to the mapElm (we also store a reverse
-        // reference to this instance against the container).
+        // Store a reference to the mapElm
         this._dom.map = mapElm
-        this._dom.map._mhMapField = this
 
         // Domain for handlers
         this._handlers = {
@@ -223,6 +221,9 @@ export class MapField {
      */
     init() {
         const {behaviours} = this.constructor
+
+        // Store a reference to the sortable instance against the map field
+        this._dom.map._mhMapField = this
 
         // Set-up the Leaflet map
         this._lmap = new Map(

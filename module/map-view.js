@@ -124,10 +124,8 @@ export class MapView {
         // Domain for related DOM elements
         this._dom = {'map': null}
 
-        // Store a reference to the mapElm (we also store a reverse
-        // reference to this instance against the container).
+        // Store a reference to the mapElm
         this._dom.map = mapElm
-        this._dom.map._mhMapView = this
     }
 
     // -- Getters & Setters --
@@ -183,6 +181,9 @@ export class MapView {
      */
     init() {
         const {behaviours} = this.constructor
+
+        // Store a reference to the sortable instance against the map view
+        this._dom.map._mhMapView = this
 
         // Set-up the Leaflet map
         this._lmap = new Map(
