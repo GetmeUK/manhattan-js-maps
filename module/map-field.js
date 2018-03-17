@@ -222,7 +222,7 @@ export class MapField {
     init() {
         const {behaviours} = this.constructor
 
-        // Store a reference to the sortable instance against the map field
+        // Store a reference to the map field instance against the map
         this._dom.map._mhMapField = this
 
         // Set-up the Leaflet map

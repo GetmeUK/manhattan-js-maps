@@ -182,7 +182,7 @@ export class MapView {
     init() {
         const {behaviours} = this.constructor
 
-        // Store a reference to the sortable instance against the map view
+        // Store a reference to the map view instance against the map
         this._dom.map._mhMapView = this
 
         // Set-up the Leaflet map
