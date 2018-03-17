@@ -33,7 +33,7 @@ export class MapField {
                     + '<a href="https://openstreetmap.org">OpenStreetMap</a>',
 
                 /**
-                 * Flag indicating if the map view can be dragged by
+                 * Flag indicating if the map field can be dragged by
                  * mouse/touch.
                  */
                 'dragging': true,
@@ -92,7 +92,7 @@ export class MapField {
                     + '{z}/{x}/{y}.png',
 
                 /**
-                 * This zoom level for the map view.
+                 * This zoom level for the map field.
                  */
                 'zoom': 13
             },
@@ -138,7 +138,8 @@ export class MapField {
         // Domain for related DOM elements
         this._dom = {
             'findLocation': null,
-            'form': null
+            'form': null,
+            'map': null
         }
 
         // Store a reference to the mapElm (we also store a reverse
@@ -183,7 +184,7 @@ export class MapField {
     // -- Public methods --
 
     /**
-     * Remove the map view.
+     * Remove the map field.
      */
     destroy() {
         // Remove event listeners
@@ -218,7 +219,7 @@ export class MapField {
     }
 
     /**
-     * Initialize the map view.
+     * Initialize the map field.
      */
     init() {
         const {behaviours} = this.constructor
