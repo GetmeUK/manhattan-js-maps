@@ -122,7 +122,7 @@ export class MapView {
         this._lmarkers = []
 
         // Domain for related DOM elements
-        this._dom = {}
+        this._dom = {'map': null}
 
         // Store a reference to the mapElm (we also store a reverse
         // reference to this instance against the container).
