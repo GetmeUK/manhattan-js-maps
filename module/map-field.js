@@ -290,7 +290,7 @@ export class MapField {
             this._dom.findLocation = $.create(
                 'div',
                 {
-                    'class': `${this.constructor.css['find-location']} \
+                    'class': `${this.constructor.css['findLocation']} \
 leaflet-control`
                 }
             )
@@ -563,6 +563,6 @@ MapField.css = {
     /**
      * Applied to the find location button on the map.
      */
-    'find-location': 'mh-find-location'
+    'findLocation': 'mh-find-location'
 
 }

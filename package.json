@@ -1,6 +1,6 @@
 {
   "name": "manhattan-maps",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Display maps and map fields using Leaflet.",
   "engines": {
     "node": ">=8.9.4"
