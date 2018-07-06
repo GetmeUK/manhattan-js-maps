@@ -492,8 +492,8 @@ describe('MapField', () => {
                 chai.expect(behaviours.inputs(mapField)).to.be.null
 
                 // Outside the lat/lng range
-                latElm.value = '-270'
-                lngElm.value = '-180'
+                latElm.value = '-180'
+                lngElm.value = '-270'
                 chai.expect(behaviours.inputs(mapField)).to.be.null
             })
         })

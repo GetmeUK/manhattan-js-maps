@@ -487,7 +487,7 @@ MapField.behaviours = {
             }
 
             // Validate the range of the lat/lng
-            if (lat < -180 || lat > 180 || lng < -90 || lng > 90) {
+            if (lng < -180 || lng > 180 || lat < -90 || lat > 90) {
                 return null
             }
 
