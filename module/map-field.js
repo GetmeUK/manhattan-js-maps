@@ -97,7 +97,8 @@ export class MapField {
                 'zoom': 13,
 
                 /**
-                 * Flag to indicate whether the zoom control should be rendered
+                 * Flag to indicate whether the zoom control should be
+                 * rendered.
                  */
                 'zoomControl': false
             },
