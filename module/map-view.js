@@ -73,7 +73,12 @@ export class MapView {
                 /**
                  * This zoom level for the map view.
                  */
-                'zoom': 13
+                'zoom': 13,
+
+                /**
+                 * Flag to indicate whether the zoom control should be rendered
+                 */
+                'zoomControl': false
             },
             options,
             mapElm,
@@ -190,7 +195,8 @@ export class MapView {
             this.mapElm,
             {
                 'dragging': this._options.dragging,
-                'scrollWheelZoom': this._options.scrollWheelZoom
+                'scrollWheelZoom': this._options.scrollWheelZoom,
+                'zoomControl': this._options.zoomControl
             }
         )
         const layer = new TileLayer(
