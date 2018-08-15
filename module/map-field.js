@@ -97,7 +97,8 @@ export class MapField {
                 'zoom': 13,
 
                 /**
-                 * Flag to indicate whether the zoom control should be rendered
+                 * Flag to indicate whether the zoom control should be
+                 * rendered.
                  */
                 'zoomControl': false
             },
@@ -347,6 +348,15 @@ leaflet-control`
                     // Found, set the new location in the map and the form
                     this.lmarker.setLatLng(latLng)
                     this.lmap.setView(this.lmarker.getLatLng())
+
+                    // Update lat/lng field values
+                    setValue(
+                        this,
+                        [
+                            latLng[0],
+                            latLng[1]
+                        ]
+                    )
                 })
                 .catch(() => {
                     // Not found, try the next one if there is one
@@ -537,6 +547,9 @@ MapField.behaviours = {
             const [lat, lng] = latLng
             latInput.value = lat
             lngInput.value = lng
+
+            $.dispatch(latInput, 'change')
+            $.dispatch(lngInput, 'change')
         }
 
     },
