@@ -67,7 +67,7 @@ export class MapView {
                  * The URL for the tile layer used to render the map, the
                  * default vendor is OpenStreetMap.
                  */
-                'tileLayerURL': 'http://{s}.tile.openstreetmap.org/'
+                'tileLayerURL': 'https://{s}.tile.openstreetmap.org/'
                     + '{z}/{x}/{y}.png',
 
                 /**
