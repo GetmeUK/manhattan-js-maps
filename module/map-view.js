@@ -81,6 +81,11 @@ export class MapView {
                 'zoom': 13,
 
                 /**
+                 * The zoom offset for the tile layer.
+                 */
+                'zoomOffset': 0,
+
+                /**
                  * Flag to indicate whether the zoom control should be
                  * rendered.
                  */
@@ -209,6 +214,7 @@ export class MapView {
             this._options.tileLayerURL,
             {
                 'tileSize': this._options.tileSize,
+                'zoomOffset': this._options.zoomOffset,
                 'minZoom': this._options.minZoom,
                 'maxZoom': this._options.maxZoom,
                 'attribution': this._options.attribution
