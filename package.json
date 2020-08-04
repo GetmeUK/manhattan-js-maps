@@ -3,7 +3,7 @@
   "version": "1.0.8",
   "description": "Display maps and map fields using Leaflet.",
   "engines": {
-    "node": ">=8.9.4"
+    "node": ">=12.16.2"
   },
   "main": "umd/index.js",
   "module": "module/index.js",
@@ -67,7 +67,7 @@
     "webpack-cli": "^2.0.9"
   },
   "dependencies": {
-    "leaflet": "^1.3.1",
+    "leaflet": "^1.6.0",
     "manhattan-essentials": "^1.0.0"
   }
 }

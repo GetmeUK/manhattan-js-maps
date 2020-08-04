@@ -71,6 +71,11 @@ export class MapView {
                     + '{z}/{x}/{y}.png',
 
                 /**
+                 * The tile size to use for the tile layer within the map.
+                 */
+                'tileSize': 256,
+
+                /**
                  * This zoom level for the map view.
                  */
                 'zoom': 13,
@@ -203,6 +208,7 @@ export class MapView {
         const layer = new TileLayer(
             this._options.tileLayerURL,
             {
+                'tileSize': this._options.tileSize,
                 'minZoom': this._options.minZoom,
                 'maxZoom': this._options.maxZoom,
                 'attribution': this._options.attribution
