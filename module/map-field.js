@@ -353,6 +353,10 @@ leaflet-control`
             }
         }
 
+        if (locations.length === 0) {
+            return
+        }
+
         // Attempt to find the locations
         const _lookup = (_locations) => {
             return geocode(this, _locations.shift())
